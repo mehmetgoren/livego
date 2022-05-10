@@ -18,25 +18,26 @@ import (
 
 var VERSION = "master"
 
-func startHls() *hls.Server {
-	hlsAddr := configure.Config.GetString("hls_addr")
-	hlsListen, err := net.Listen("tcp", hlsAddr)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	hlsServer := hls.NewServer()
-	go func() {
-		defer func() {
-			if r := recover(); r != nil {
-				log.Error("HLS server panic: ", r)
-			}
-		}()
-		log.Info("HLS listen On ", hlsAddr)
-		hlsServer.Serve(hlsListen)
-	}()
-	return hlsServer
-}
+// todo: do not uncomment
+//func startHls() *hls.Server {
+//	hlsAddr := configure.Config.GetString("hls_addr")
+//	hlsListen, err := net.Listen("tcp", hlsAddr)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//
+//	hlsServer := hls.NewServer()
+//	go func() {
+//		defer func() {
+//			if r := recover(); r != nil {
+//				log.Error("HLS server panic: ", r)
+//			}
+//		}()
+//		log.Info("HLS listen On ", hlsAddr)
+//		hlsServer.Serve(hlsListen)
+//	}()
+//	return hlsServer
+//}
 
 func startRtmp(stream *rtmp.RtmpStream, hlsServer *hls.Server) {
 	rtmpAddr := configure.Config.GetString("rtmp_addr")
@@ -139,9 +140,10 @@ func main() {
 	for _, app := range apps {
 		stream := rtmp.NewRtmpStream()
 		var hlsServer *hls.Server
-		if app.Hls {
-			hlsServer = startHls()
-		}
+		// todo: do not uncomment
+		//if app.Hls {
+		//	hlsServer = startHls()
+		//}
 		if app.Flv {
 			startHTTPFlv(stream)
 		}

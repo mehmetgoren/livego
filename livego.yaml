@@ -21,6 +21,6 @@
 server:
 - appname: live
   live: true
-  hls: true
+  hls: false
   api: true
   flv: true
